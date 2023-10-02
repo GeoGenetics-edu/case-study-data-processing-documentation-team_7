@@ -4,6 +4,7 @@
 
 ## Setting up the environment
 
+
 '''
 conda activate day1
 '''
@@ -21,9 +22,12 @@ Launch the script:
 
 ## Pre-processing
   ### Trimming
-  We trim sequences under 30 base pairs.
-  ### Deduplication
-  Then we remove duplicate sequences.
+We looked at the size length of the reads of the different files and they were already trimmed to more than 30 bp.
+
+'''
+'''
+
+### Deduplication  Then we remove duplicate sequences.
 Both steps are done with vsearch:
 
 deduplicate.sh
