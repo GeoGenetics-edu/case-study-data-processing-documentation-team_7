@@ -20,7 +20,7 @@ done
 
 
 ## Pre-processing
-  ### Trimming
+  ### Check if trimmed
 We looked at the size length of the reads of the different files and they were already trimmed to more than 30 bp.
 
 ```
@@ -43,9 +43,23 @@ done
 ```
 
 ## Mapping
-  ### Choice of parameter
+  ### Choice of parameters
 
   We use bowtie2 for mapping against the aegenomics.db database.
+  We used 5 threads to speed the analyzis, with parameter k sat to 100 which means that any reads that have more than  alignments is not reported, this is high enough to keep most of the reads that mapped are kept. (to be discussed together)
+  For practical reasons we run the mapping through tmux to have our job running in the background.
+
+```
+tmux new -s name
+#come back to your screen
+tmux a -t name #link back
+#to kill the session
+tmux kill-session -t name
+#to list number of opened sessions
+mux ls #list
+#exit the screen
+ctrl+B    +    D 
+```
   
 ```
 for fq in $(ls ./*.fq.gz); do
