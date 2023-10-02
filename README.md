@@ -25,7 +25,8 @@ We looked at the size length of the reads of the different files and they were a
 
 ```
 for fq in $(ls ./*.fq.gz); do
-echo ${fq/.fq.gz/} zcat $fq | awk 'NR%4==2{sum+=length($0)}END{print sum/(NR/4)}'
+echo ${fq/.fq.gz/}
+zcat $fq | awk 'NR%4==2{sum+=length($0)}END{print sum/(NR/4)}'
 done
 ```
 
