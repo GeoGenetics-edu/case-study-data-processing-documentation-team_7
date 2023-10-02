@@ -64,8 +64,8 @@ ctrl+B    +    D
 ```
   Mapping:
 ```
-for fq in $(ls ./*.fq.gz | grep -v ".vs.fq.gz"); do
-bowtie2 --threads 5 -k 100 -x ~/course/data/shared/mapping/db/aegenomics.db -U ${fq/.fq.gz/}.vs.fq.gz --no-unal | samtools view -bS - > ${fq/.fq.gz/}.bam
-echo “map ${fq/.fq.gz/}”
+for fq in $(ls ./*.vs.fq.gz); do
+bowtie2 --threads 5 -k 100 -x ~/course/data/shared/mapping/db/aegenomics.db -U $fq --no-unal | samtools view -bS - > ${fq/.vs.fq.gz/}.bam
+echo “map ${fq/.vs.fq.gz/}”
 done
 ```
