@@ -11,8 +11,7 @@ conda activate day1
 
 ## Input data
 
-Create virtual links to fasta files:
-virtual_links.sh:
+We create virtual links to fasta files in our working directory:
 ```
 for fq in $(ls ./*.fq.gz); do
 ln -s ~/course/data/day2/fastq/PRI-TJPGK-CATN-96-98.fq.gz .
