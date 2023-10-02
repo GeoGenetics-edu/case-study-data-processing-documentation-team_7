@@ -5,3 +5,9 @@
 ## Setting up the environment
 
 ## Input data
+
+## Pre-processing
+  ### Trimming
+  ### Deduplication
+
+## Mapping
