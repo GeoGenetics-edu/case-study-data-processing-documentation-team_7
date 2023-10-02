@@ -47,6 +47,8 @@ done
 
   We use bowtie2 for mapping against the aegenomics.db database.
   We used 5 threads to speed the analyzis, with parameter k sat to 100 which means that any reads that have more than  alignments is not reported, this is high enough to keep most of the reads that mapped are kept. (to be discussed together)
+ 
+  
   For practical reasons we run the mapping through tmux to have our job running in the background.
 
 ```
@@ -60,7 +62,7 @@ mux ls #list
 #exit the screen
 ctrl+B    +    D 
 ```
-  
+  Mapping:
 ```
 for fq in $(ls ./*.fq.gz); do
 bowtie2 --threads 5 -k 100 -x ~/course/data/shared/mapping/db/aegenomics.db -U ${fq/.fq.gz/}.vs.fq.gz --no-unal | samtools view -bS - > ${fq/.fq.gz/}.bam
