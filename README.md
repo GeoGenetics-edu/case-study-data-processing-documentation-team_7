@@ -137,6 +137,10 @@ A large part of the taxa sit below 10% estimate.
 * Here we filtered at 10% of damage frequency, and the same threshold for damage significance:
 ![newplot__2__720](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/111506710/90b4c612-3669-47ff-b4d4-2e12684367da)
 
+Having a more drastic threshold for damage frequency can help to avoid signal from living organisms from the sediment, ie bacteria.
+=> However, we will discuss this more in depth in the coming days as those organisms while being not necessarily dead could be also informative in past environment/climate reconstruction (ie. organisms from [Antonio's preprint][Reference_preprint_Antonio], [spores in the marine sediment][ref_notdead_yet]).
+
+
 ## Statistical plotting in R: /!\ to be done
 Activate the R environment:
 ```
@@ -201,3 +205,7 @@ do
     Rscript -e "library(ggplot2);library(viridisLite); data <- read.csv('Viridiplantae_long_table.csv'); plot <- ggplot(data, aes(x = Readlength, y = Count, fill = Category)) + geom_area(alpha = 0.8) + scale_fill_viridis_d() + facet_wrap(~ID, scales = 'free_y', ncol = 2) + labs(x = 'Read Length', y = 'Count', title = 'Read Length Distribution by Category') + theme(plot.title = element_text(hjust = 0.5)); ggsave('readlength_distributionPerGenus_plants.pdf', plot, width = 5, height = 7)"
 done
 ```
+## References
+[Reference_preprint_Antonio]: <https://www.biorxiv.org/content/10.1101/2023.06.10.544454v2.abstract> "Fernandez-Guerra et al., 2023, bioRxiv"
+[ref_notdead_yet]: <https://bsapubs.onlinelibrary.wiley.com/doi/10.1002/ajb2.1780> "Sanyal et al., 2021, American Journal of Botany"
+
