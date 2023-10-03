@@ -109,7 +109,7 @@ metaDMG config *.sorted.bam --names ~/course/data/shared/mapping/taxonomy/names.
 
 Then we set the differents parameters, for instance the amount of mismatches that we allow, here between 0 and 5 mismatches.
 ```
-vim [config.yaml]
+vim [config.yaml](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/blob/main/config.yaml)
 ```
 
 Computing the statistics:
