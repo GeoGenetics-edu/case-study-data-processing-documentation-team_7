@@ -79,13 +79,13 @@ done
 ## Classification and damage mapping:
 
 Damage patterns are specific to ancient DNA or very degraded such as DNA preserved in formaldehyde for instance. The extremisties could have cytosine deaminations or methylation of the Cytosines in CpG islands resulting in TpG.
-MetaDMG is a program specifically designed to analyze damage patterns from metagenomes. It is also computationnally efficient because it combines both the taxonomic classification and the damage analysis by using directly the bam files.
-The taxonomic classification is using a LCA algorythm standing for last common ancestor (here it is ngsLCA). => https://www.geeksforgeeks.org/lowest-common-ancestor-binary-tree-set-1/
-The damage pattern algorythm compares the reads aligned in the sample to the reference and measure the difference between the reference and the sequence. It also includes background noise estimation (ie. sequencing errors).
-metaDMG provides a damage pattern estimation at the lowest taxonomic resolution possible.
+
+=> MetaDMG is a program specifically designed to analyze damage patterns from metagenomes. It is also computationnally efficient because it combines both the taxonomic classification and the damage analysis by using directly the bam files.
+      => The taxonomic classification, included in metaDMG, is using a LCA algorythm standing for last common ancestor (here it is ngsLCA). => https://www.geeksforgeeks.org/lowest-common-ancestor-binary-tree-set-1/
+      => The damage pattern algorythm compares the reads aligned in the sample to the reference and measure the difference between the reference and the sequence. It also includes background noise estimation (ie. sequencing errors). metaDMG provides a damage pattern estimation at the lowest taxonomic resolution possible.
 
 
-We included in the command line directly the "custom database" parameter with --custom-database and sat cores per sample.
+We included in the command line directly the "custom database" parameter with --custom-database and sat 4 cores per sample.
 
 ```
 metaDMG config *.sorted.bam --names ~/course/data/shared/mapping/taxonomy/names.dmp --nodes ~/course/data/shared/mapping/taxonomy/nodes.dmp --acc2tax ~/course/data/shared/mapping/taxonomy/acc2taxid.map.gz -m /usr/local/bin/metaDMG-cpp --custom-database --cores-pe--cores-per-sample 4
