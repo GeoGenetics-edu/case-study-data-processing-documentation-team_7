@@ -69,8 +69,11 @@ bowtie2 --threads 5 -k 100 -x ~/course/data/shared/mapping/db/aegenomics.db -U $
 echo “map ${fq/.vs.fq.gz/}”
 done
 ```
-   Sorting the bam files:
+   Sorting the bam files by read name:
  ```
+for fq in $(ls ./*.vs.fq.gz); do
+        samtools sort -n ${fq/.vs.fq.gz/}.bam -@ 5 > ${fq/.vs.fq.gz/}.sorted.bam
+done
  ```
 
 ## Classification and damage mapping:
@@ -80,6 +83,25 @@ MetaDMG is a program specifically designed to analyze damage patterns from metag
 The taxonomic classification is using a LCA algorythm standing for last common ancestor (here it is ngsLCA). => https://www.geeksforgeeks.org/lowest-common-ancestor-binary-tree-set-1/
 The damage pattern algorythm compares the reads aligned in the sample to the reference and measure the difference between the reference and the sequence. It also includes background noise estimation (ie. sequencing errors).
 metaDMG provides a damage pattern estimation at the lowest taxonomic resolution possible.
-```
-metaDMG config *.sort.bam --names ~/course/data/shared/mapping/taxonomy/names.dmp --nodes ~/course/data/shared/mapping/taxonomy/nodes.dmp --acc2tax ~/course/data/shared/mapping/taxonomy/acc2taxid.map.gz -m /usr/local/bin/metaDMG-cpp --custom-database --cores-pe--cores-per-sample 4```
 
+
+We included in the command line directly the "custom database" parameter with --custom-database and sat cores per sample.
+
+```
+metaDMG config *.sorted.bam --names ~/course/data/shared/mapping/taxonomy/names.dmp --nodes ~/course/data/shared/mapping/taxonomy/nodes.dmp --acc2tax ~/course/data/shared/mapping/taxonomy/acc2taxid.map.gz -m /usr/local/bin/metaDMG-cpp --custom-database --cores-pe--cores-per-sample 4
+```
+Then we set the differents parameters, for instance the amount of mismatches that we allow, here between 0 and 5 mismatches.
+```
+vim config.yaml
+```
+
+Computing the statistics:
+  ```
+metaDMG compute config.yaml
+  ```
+
+ Visualtion of the damage patterns using GUI:
+ ```
+metaDMG dashboard config.yaml
+
+ ```
