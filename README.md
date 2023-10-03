@@ -107,9 +107,9 @@ We included in the command line directly the "custom database" parameter with --
 metaDMG config *.sorted.bam --names ~/course/data/shared/mapping/taxonomy/names.dmp --nodes ~/course/data/shared/mapping/taxonomy/nodes.dmp --acc2tax ~/course/data/shared/mapping/taxonomy/acc2taxid.map.gz -m /usr/local/bin/metaDMG-cpp --custom-database --cores-per-sample 4
 ```
 
-Then we set the differents parameters, for instance the amount of mismatches that we allow, here between 0 and 5 mismatches.
+Then we set the differents parameters in the [configuration file](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/blob/main/config.yaml), for instance the amount of mismatches that we allow, here between 0 and 5 mismatches.
 ```
-vim [config.yaml](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/blob/main/config.yaml)
+vim config.yaml
 ```
 
 Computing the statistics:
