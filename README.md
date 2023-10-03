@@ -96,7 +96,7 @@ Damage patterns are specific to ancient DNA or very degraded such as DNA preserv
 We included in the command line directly the "custom database" parameter with --custom-database and sat 4 cores per sample.
 
 ```
-metaDMG config *.sorted.bam --names ~/course/data/shared/mapping/taxonomy/names.dmp --nodes ~/course/data/shared/mapping/taxonomy/nodes.dmp --acc2tax ~/course/data/shared/mapping/taxonomy/acc2taxid.map.gz -m /usr/local/bin/metaDMG-cpp --custom-database --cores-pe--cores-per-sample 4
+metaDMG config *.sorted.bam --names ~/course/data/shared/mapping/taxonomy/names.dmp --nodes ~/course/data/shared/mapping/taxonomy/nodes.dmp --acc2tax ~/course/data/shared/mapping/taxonomy/acc2taxid.map.gz -m /usr/local/bin/metaDMG-cpp --custom-database --cores-per-sample 4
 ```
 Then we set the differents parameters, for instance the amount of mismatches that we allow, here between 0 and 5 mismatches.
 ```
