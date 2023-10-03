@@ -1,6 +1,10 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/-7_RZisP)
 
-# Document of Team 7
+# Document of Team 7 - part of the Ancient Environmental Genomics Course 2023
+# Chenyu, Julia and Mathilde
+
+![analysis](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/111506710/db593307-ff54-4810-bf97-58451cc6895f)
+
 
 ## Setting up the environment
 We activate the conda environment 'day1', that includes all of the softwares that we need for this analyzis.
