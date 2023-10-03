@@ -109,7 +109,7 @@ metaDMG config *.sorted.bam --names ~/course/data/shared/mapping/taxonomy/names.
 
 Then we set the differents parameters, for instance the amount of mismatches that we allow, here between 0 and 5 mismatches.
 ```
-vim [config.yaml][config.yalm]
+vim [config.yaml]
 ```
 
 Computing the statistics:
