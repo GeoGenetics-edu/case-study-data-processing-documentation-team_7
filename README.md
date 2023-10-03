@@ -6,6 +6,7 @@
 ![20231003_140557](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/32941862/6165fe93-e43a-4eb3-b0fa-e5fbb7de17e3)
 ![analysis](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/111506710/db593307-ff54-4810-bf97-58451cc6895f)
 
+Note: code verified a second time until mapping so far, ie corrections of typos etc.
 
 ## Setting up the environment
 We activate the conda environment 'day1', that includes all of the softwares that we need for this analyzis.
@@ -18,8 +19,9 @@ conda activate day1
 
 We create virtual links to fasta files in our working directory:
 ```
-for fq in $(ls ./*.fq.gz); do
-ln -s ~/course/data/day2/fastq/PRI-TJPGK-CATN-96-98.fq.gz .
+for fq in $(ls ~/course/data/day2/fastq/*.fq.gz); do
+ln -s ${fq} .
+ls -l
 done
 ```
 
@@ -30,8 +32,8 @@ We looked at the size length of the reads of the different files and they were a
 
 ```
 for fq in $(ls ./*.fq.gz); do
-echo ${fq/.fq.gz/}
-zcat $fq | awk 'NR%4==2{sum+=length($0)}END{print sum/(NR/4)}'
+echo ${fq}
+zcat ${fq} | awk 'NR%4==2{sum+=length($0)}END{print sum/(NR/4)}'
 done
 ```
 
@@ -67,6 +69,11 @@ mux ls #list
 #exit the screen
 ctrl+B    +    D 
 ```
+
+```
+conda activate day1
+```
+
   Mapping:
 ```
 for fq in $(ls ./*.vs.fq.gz); do
@@ -93,11 +100,13 @@ Damage patterns are specific to ancient DNA or very degraded such as DNA preserv
   * The damage pattern algorythm compares the reads aligned in the sample to the reference and measure the difference between the reference and the sequence. It also includes background noise estimation (ie. sequencing errors). metaDMG provides a damage pattern estimation at the lowest taxonomic resolution possible.
 
 
+
 We included in the command line directly the "custom database" parameter with --custom-database and sat 4 cores per sample.
 
 ```
 metaDMG config *.sorted.bam --names ~/course/data/shared/mapping/taxonomy/names.dmp --nodes ~/course/data/shared/mapping/taxonomy/nodes.dmp --acc2tax ~/course/data/shared/mapping/taxonomy/acc2taxid.map.gz -m /usr/local/bin/metaDMG-cpp --custom-database --cores-per-sample 4
 ```
+
 Then we set the differents parameters, for instance the amount of mismatches that we allow, here between 0 and 5 mismatches.
 ```
 vim config.yaml
@@ -111,16 +120,24 @@ metaDMG compute config.yaml
  Visualtion of the damage patterns using GUI:
  ```
 metaDMG dashboard config.yaml
-
  ```
+
+
 ### Results observations:
-* Exemple of one sample:
-https://files.slack.com/files-pri/T05UFUZETQS-F05VAFPDUDP/image.png
+
+* Overview of the damage results for all the samples, with a filter of damage significance > 2.3 and damage frequency > 3%.
+![image_720](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/111506710/cda7937d-06b3-4ff0-a71e-5c8e9bb2efd0)
 
 On this plot you can see on the horizontal axis the damage significance and on the vertical axis the damage frequency. Each dot represents one taxa and the size of the dot is correlated with the number of reads of the taxa.
+A large part of the taxa sit below 10% estimate.
 
+* On this plot, we aggregated the taxa at the Kingdom level. We can observe that this results in the display of the mean of damage frequency aggregrated. As a results damage frequency appear lower overall. 
+![newplot](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/111506710/9cdd7d0f-d929-438b-b05a-3443ea7bb81d)
 
-## Statistical plotting in R:
+* Here we filtered at 10% of damage frequency, and the same threshold for damage significance:
+![newplot__2__720](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/111506710/90b4c612-3669-47ff-b4d4-2e12684367da)
+
+## Statistical plotting in R: /!\ to be done
 Activate the R environment:
 ```
 conda activate R
@@ -144,6 +161,7 @@ do
     Rscript -e "library(ggplot2); data <- read.csv('long_table.csv'); myplot <- ggplot(data, aes(x=Readlength, y=Count)) + geom_point() + facet_wrap(~ID, ncol = 2, scales = 'free_y'); ggsave('readlength_distributionTotal.pdf', myplot, width = 6, height = 4)"
 done
 ```
+
 Let's plot at the superkingdom level:
 ```
 echo "ID,Category,Readlength,Count" > long_table2.csv
