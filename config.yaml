@@ -1,0 +1,28 @@
+samples:
+  PRI-TJPGK-CATN-96-98: PRI-TJPGK-CATN-96-98.sorted.bam
+  PRI-TJPGK-CATN-112-114: PRI-TJPGK-CATN-112-114.sorted.bam
+  PRI-TJPGK-CATN-160-162: PRI-TJPGK-CATN-160-162.sorted.bam
+  PRI-TJPGK-CATN-224-226: PRI-TJPGK-CATN-224-226.sorted.bam
+  PRI-TJPGK-CATN-288-290: PRI-TJPGK-CATN-288-290.sorted.bam
+  PRI-TJPGK-EC-1: PRI-TJPGK-EC-1.sorted.bam
+  PRI-TJPGK-EC-3: PRI-TJPGK-EC-3.sorted.bam
+metaDMG_cpp: /usr/local/bin/metaDMG-cpp
+names: /home/user-5/course/data/shared/mapping/taxonomy/names.dmp
+nodes: /home/user-5/course/data/shared/mapping/taxonomy/nodes.dmp
+acc2tax: /home/user-5/course/data/shared/mapping/taxonomy/acc2taxid.map.gz
+min_similarity_score: 0.95
+max_similarity_score: 1.0
+min_mapping_quality: 0
+lca_rank: ''
+max_position: 15
+min_reads: 0
+weight_type: 1
+custom_database: true
+forward_only: false
+output_dir: data
+parallel_samples: 1
+cores_per_sample: 4
+bayesian: false
+config_file: config.yaml
+damage_mode: lca
+version: 0.38.0
