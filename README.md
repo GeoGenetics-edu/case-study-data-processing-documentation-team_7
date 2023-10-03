@@ -115,8 +115,7 @@ metaDMG dashboard config.yaml
  ```
 ### Results observations:
 * Exemple of one sample:
-![image](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/111506710/b6e756d0-7fdc-4452-9fb0-d81f0ec66a63)
-
+https://files.slack.com/files-pri/T05UFUZETQS-F05VAFPDUDP/image.png
 
 On this plot you can see on the horizontal axis the damage significance and on the vertical axis the damage frequency. Each dot represents one taxa and the size of the dot is correlated with the number of reads of the taxa.
 
