@@ -81,7 +81,9 @@ done
 Damage patterns are specific to ancient DNA or very degraded such as DNA preserved in formaldehyde for instance. The extremisties could have cytosine deaminations or methylation of the Cytosines in CpG islands resulting in TpG.
 
 => MetaDMG is a program specifically designed to analyze damage patterns from metagenomes. It is also computationnally efficient because it combines both the taxonomic classification and the damage analysis by using directly the bam files.
+      
       => The taxonomic classification, included in metaDMG, is using a LCA algorythm standing for last common ancestor (here it is ngsLCA). => https://www.geeksforgeeks.org/lowest-common-ancestor-binary-tree-set-1/
+      
       => The damage pattern algorythm compares the reads aligned in the sample to the reference and measure the difference between the reference and the sequence. It also includes background noise estimation (ie. sequencing errors). metaDMG provides a damage pattern estimation at the lowest taxonomic resolution possible.
 
 
@@ -154,7 +156,7 @@ do
     Rscript -e "library(ggplot2);library(viridisLite); data <- read.csv('long_table2.csv'); plot <- ggplot(data, aes(x = Readlength, y = Count, fill = Category)) + geom_area(alpha = 0.8) + scale_fill_viridis_d() + facet_wrap(~ID, scales = 'free_y', ncol = 2) + labs(x = 'Read Length', y = 'Count', title = 'Read Length Distribution by Category') + theme(plot.title = element_text(hjust = 0.5)); ggsave('readlength_distributionPerKingdom.pdf', plot, width = 5, height = 7)"
 done
 ```
-Let's plot at the superkingdom level:
+Let's plot at the genus level but only for plants:
 ```
 echo "ID,Category,Readlength,Count" > long_table2.csv
 
