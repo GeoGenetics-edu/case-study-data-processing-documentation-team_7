@@ -205,7 +205,49 @@ do
     Rscript -e "library(ggplot2);library(viridisLite); data <- read.csv('Viridiplantae_long_table.csv'); plot <- ggplot(data, aes(x = Readlength, y = Count, fill = Category)) + geom_area(alpha = 0.8) + scale_fill_viridis_d() + facet_wrap(~ID, scales = 'free_y', ncol = 2) + labs(x = 'Read Length', y = 'Count', title = 'Read Length Distribution by Category') + theme(plot.title = element_text(hjust = 0.5)); ggsave('readlength_distributionPerGenus_plants.pdf', plot, width = 5, height = 7)"
 done
 ```
+
+
+## DNA Authentication
+We have filtered the damage results further to find the threshold where the results are most reliable. We are filtering for the number of reads, the length of the reads and the significance of the damage.
+
+
+Filtering for DNA fragments with more than 35 base pairs and a damage significance of 5.
+```
+filtered_data_viridiplantae <- filtered_data %>% filter(N_reads >= 100, mean_L > MinLength3, MAP_significance  > MapSig3,  grepl("Viridiplantae",tax_path), grepl("\\bgenus\\b", tax_rank), grepl("", YearsBP))
+
+> MinLength3
+[1] 35
+> MapSig3
+[1] 5
+
+```
+What species can be found?
+```
+> select(filtered_data_viridiplantae, tax_name, MAP_damage, MAP_significance, N_reads, YearsBP)
+       tax_name MAP_damage MAP_significance N_reads YearsBP
+1 g__Potentilla 0.009030714        5.117909  21725   1200
+2 g__Epilobium 0.010413541        6.293386  33841   1200
+> unique(filtered_data_viridiplantae$tax_name)
+[1] "g__Potentilla" "g__Epilobium"
+```
+When you filter for a significance of 5 it is too stringent because it only results in two species. 
+
+[aeCourse.DNAdamageLRJitterPlot.pdf](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/files/12801320/aeCourse.DNAdamageLRJitterPlot.pdf)
+
+[aeCourse.DNAdamageModelJitterPlot.pdf](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/files/12801321/aeCourse.DNAdamageModelJitterPlot.pdf)
+
+
+## EUKA
+
+## Phylogenetic placement
+
+## Pathphynder
+
+## Population genomics
+
+
 ## References
 [Reference_preprint_Antonio]: <https://www.biorxiv.org/content/10.1101/2023.06.10.544454v2.abstract> "Fernandez-Guerra et al., 2023, bioRxiv"
 [ref_notdead_yet]: <https://bsapubs.onlinelibrary.wiley.com/doi/10.1002/ajb2.1780> "Sanyal et al., 2021, American Journal of Botany"
+
 
