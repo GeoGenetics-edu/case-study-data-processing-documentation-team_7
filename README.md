@@ -350,6 +350,11 @@ pathPhynder -s all -t 100 -i ./Mafft_All_BEAST4.nwk -p ./taxa_pathphynder_tree -
 
 
 ## Microbiome
+The goal of this part is to tailor specifically the analysis for microbes. Here we focus in particular on bacteria, archea and viruses.
+
+This is the pipeline we thought of prior to the course:
+
+![image](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/111506710/4b27a043-8bf5-4196-8e0c-f00b3bab9151)
 
 
 
