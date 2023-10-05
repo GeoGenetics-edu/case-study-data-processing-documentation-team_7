@@ -237,11 +237,114 @@ When you filter for a significance of 5 it is too stringent because it only resu
 [aeCourse.DNAdamageModelJitterPlot.pdf](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/files/12801321/aeCourse.DNAdamageModelJitterPlot.pdf)
 
 
-## EUKA
+## EUKA: mapping multiple samples to the pangenome graph
 
-## Phylogenetic placement
+creat an output directory
+```
+mkdir /home/user-5/course/wdir/day1_group/euka
+```
+input a single sample (which works)
+```
+~/course/data/vgan/bin/vgan euka -fq1 <(zcat ~/course/wdir/mapping/PRI-TJPGK-CATN-96-98.fq.gz.vs.fq.gz) -o PRI-TJPGK-CATN-96-98 -t 5
+```
+input multiple samples (which did not work)
+```
+~/course/data/vgan/bin/vgan euka -fq1 <(zcat ~/course/wdir/day1_group/*.vs.fq.gz) -o all_sample -t 5 --euka_dir /home/user-5/course/wdir/day1_group/euka
+```
+visualization:
 
-## Pathphynder
+?where is the tree.csv
+
+drag the tree.csv file to https://itol.embl.de/
+
+## Pathphynder: Phylogenetic placement
+ Create VCF with snp-sites from multiple sequence alignment (MSA) file
+
+snp-sites -v -c -o Aln_mafft_taxa_references.vcf All_ref_only_realigned.fa
+
+Make sure package stringr is installed
+R
+library(string)
+
+if not install it:
+install.packages("stringr")
+quit()
+
+fix vcf file
+Rscript /path_to_Rscript/fix_vcf.R Aln_mafft_taxa_references.vcf Aln_mafft_taxa_references_output.vcf
+fix consensus naming problem in vcf file (replace 1’s with “consensus”)
+
+awk '{ if ($1 == "1") $1="consensus";}1' Aln_mafft_taxa_references_output.vcf | sed 's/ /\t/g' > Aln_mafft_taxa_references_fixed_output.vcf
+
+Install biopython
+
+pip install biopython
+
+Create consensus for MSA.fa and index it
+
+python /path_To_Script/get_consensus.txt All_ref_only_realigned.fa Cons_Aln_mafft_taxa_references.fa
+bwa index Cons_Aln_mafft_taxa_references.fa
+Create directory in pathPhynder_analysis folder
+
+mkdir map_to_cons
+bwa mapping of Ovis reads to consensus: conda activate day1
+
+bwa aln -l 1024 -n 0.001 -t 5 /path_to_folder/Consensus_Mafft_All_references.fa /path_to_folder/library.fq | bwa samse /path_to_folder/Consensus_Mafft_All_references.fa  - /path_to_folder/library.fq | samtools view -F 4 -q 25 -@ 5 -uS - | samtools sort -@ 5 -o library.sort.bam
+Count number of mapped reads
+
+samtools view -c file.bam
+8. PathPhynder
+Install pathPhynder
+
+git clone https://github.com/ruidlpm/pathPhynder.git
+make a new .bash_rc
+
+touch ~/.bash_rc
+vi ~/.bash_rc
+Add manually these lines, using the path where pahPhynder is installed:
+
+
+alias pathPhynder="Rscript /path_to_pathPhynder_folder/pathPhynder.R"
+save file
+
+Esc 
+:wq
+source it
+```
+source ~/.bash_profile
+```
+test it
+pathPhynder -h
+
+Create directory in pathPhynder_analysis folder
+
+mkdir pathphynder_results
+Assign informative SNPs to tree branches: use 
+```
+conda activate day2
+
+phynder -B -o ./branches.snp ./Mafft_All_BEAST4.nwk ./Mafft_All_references_fixed_consensus.vcf
+
+conda activate r
+```
+Install samtools
+```
+mamba install -c bioconda samtools
+```
+Prepare data - this will output a bed file for calling variants and tables for phylogenetic placement
+```
+pathPhynder -s prepare -i ./Mafft_All_BEAST4.nwk -p taxa_pathphynder_tree -f ./branches.snp -r ./Cons_Aln_mafft_taxa_references.fa
+```
+
+PathPhynder command1: ### only transversions
+```
+pathPhynder -s all -t 100 -m transversions -i ./Mafft_All_BEAST4.nwk -p ./taxa_pathphynder_tree -l ./bamlist.txt -r ./Cons_Aln_mafft_taxa_references.fa
+```
+
+PathPhynder command2: ###transitions and transvertions--do not specify -m to extract transversions
+```
+pathPhynder -s all -t 100 -i ./Mafft_All_BEAST4.nwk -p ./taxa_pathphynder_tree -l ./bamlist.txt -r ./Cons_Aln_mafft_taxa_references.fa
+```
 
 ## Population genomics
 
