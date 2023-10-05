@@ -356,7 +356,76 @@ This is the pipeline we thought of prior to the course:
 
 ![image](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/111506710/4b27a043-8bf5-4196-8e0c-f00b3bab9151)
 
+We were for instance reflecting on how to entangle the ancient signal and the ancient dormant/alive signal.
 
+One of the questions for the next part of this analysis is to be able to see whether or not we can find microbes with damages in our samples.
+
+### Extension of the reads, dereplication and mapping:
+These first steps are similar to what we have done for the eukaryotes. However here we extend the reads first.
+
+####Description of the extension method:
+* This method uses other kmer from the metagenomic data of the samples to extend existing reads. It is very conservative so it doesn't extend on damages and if it finds bubbles in the graph it stops (ie if there are several position on which the read could extend). The consequences of that is that the modern reads will be more extended than ancient ones in general. 
+* On other consequence of extending the reads is that is allows to remove more duplicates as we made some reads artificially different at the adapter removal and trimming step.
+
+For the extension we use tadpole:
+```
+tadpole.sh -Xmx10G \
+    k=17 \
+    in=data/fastq/PRI-TJPGK-CATN-160-162.fq.gz \
+    out=PRI-TJPGK-CATN-160-162.extended.fq.gz \
+    mode=extend \
+    ibb=f \
+    prefilter=0 \
+    el=100 er=100 \
+    threads=5 \
+    overwrite=true \
+    trimends=9 \
+    ecc=f ecco=f \
+    filtermem="${MEM}" \
+    conservative=t \
+    ignorebadquality 
+```
+To visualize the output statistics we use seqkit:
+```
+seqkit stats -j 5 -T data/fastq/PRI-TJPGK-CATN-160-162.fq.gz | csvtk -t pretty
+```
+Here are the statistics of the raw reads:
+![image](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/111506710/471e3582-0340-41f6-ba65-1e5b33cec879)
+
+Here are the statistics of the extended reads:
+![image](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/111506710/dec00817-25c7-46a7-8758-b7670bb5b210)
+
+
+* Dereplication: here we use seqkit which does the same job as vsearch but faster:
+  ```
+  seqkit rmdup -j 5 -s -o PRI-TJPGK-CATN-160-162.extended.derep.fq.gz PRI-TJPGK-CATN-160-162.extended.fq.gz
+  ```
+Statistitics of the extended dereplicated reads:
+![image](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/111506710/b30d9cef-6f2f-4487-8c49-4e8748a17d0b)
+
+#### Database:
+The database includes mitochondrial and chloroplasts genomes from NCBI as proxies for bacterial genomes.
+It is important to tailor the database to our target environment (ie. include sequences from Tara Oceans if marine).
+
+Here the particularity is that the database is built with each genome of reference being concatenated in one fasta. It is both easier to sort (lower number of references) and faster for Bowtie2.
+
+#### Mapping:
+The mapping is similar here than what we did previously for the eukaryotes.
+We also use Bowtie2. Note: the parameters here are sat for teh tutorial but for a real analysis we need to thune the parameters (ie -L is the parameter to set the size of the seed, the shorter, the more sensitive, however the mapping will be slower).
+```
+bowtie2 -p 5 -k 100 -D 10 -R 2 \
+    -N 0 -D 5 -R 1 -L 22 -i S,0,2.50 \
+    --np 1 --mp "1,1" --rdg "0,1" --rfg "0,1" --score-min "L,0,-0.1" \
+    -x data/db/aegenomics.db \
+    -q PRI-TJPGK-CATN-160-162.mapping.fastq.gz --no-unal \
+    | samtools view -F 4 -b \
+    | samtools sort -@ 32 -m 8G -o PRI-TJPGK-CATN-160-162.sorted.bam
+```
+#### Filtering:
+
+#### Damage:
+
+#### Fonctionnal profiling:
 
 ## References
 [Reference_preprint_Antonio]: <https://www.biorxiv.org/content/10.1101/2023.06.10.544454v2.abstract> "Fernandez-Guerra et al., 2023, bioRxiv"
