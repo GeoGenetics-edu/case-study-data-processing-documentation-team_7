@@ -86,17 +86,35 @@ a. with polar bear in the list for .par
 b. without
 <img width="619" alt="Screenshot 2023-10-06 at 14 19 27" src="https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/53645977/fbd7cb11-aca6-4416-9bf3-d30081fec989">
 
-This shows that polar bear as an outgroup can compress the difference among modern populations of bears. Also, there is an ancient sample slight biased towards polar bear in the PCA with all populations. This might be due to ???
-
-damage
-?bais
+This shows that polar bear as an outgroup can compress the difference among modern populations of bears. Also, there is an ancient sample slight biased towards polar bear in the PCA with all populations. This might be due to damage or outgroup attraction effect.
 
 
 
 ## (2) f-statistic
 
+conda activate r
+mamba install bioconductor-ggtree r-ape
 
+use the f-statistic framework, implemented in the R package admixtools
 
+then run `f_statistics.R` in interactive mode
 
+For f3 statistic, there are 3 populations: A, B (sources) and C (target).
+f3(A,B;C)=⟨(c−a)(c−b)⟩
 
+`f3<0 significantly (f3 < -3)` C might be in between of A and B.
+
+f3-statistic
+<img width="498" alt="image" src="https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/53645977/b489cabb-9097-4f47-be04-4ccc179a1f64">
+
+f4 is assuming Population((A,B),(X,D)), here X is query sample.
+
+`f4>0` BD is more similar to each other.
+
+`f4=0` The order is fine.
+
+`f4<0` BC is more similar to each other.
+
+f4-statistic
+<img width="642" alt="image" src="https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/53645977/16b9c40c-9c98-4972-9cdd-c958c9a5da9e">
 
