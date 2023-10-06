@@ -253,7 +253,7 @@ input multiple samples (which did not work)
 ```
 visualization:
 
-?where is the tree.csv
+?where is the [tree.nw](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/blob/main/tree.nw)
 
 drag the tree.csv file to https://itol.embl.de/
 
@@ -361,6 +361,10 @@ We were for instance reflecting on how to entangle the ancient signal and the an
 One of the questions for the next part of this analysis is to be able to see whether or not we can find microbes with damages in our samples.
 
 ### Extension of the reads, dereplication and mapping:
+Preliminary statistics of our samples:
+![image](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/111506710/3258a88c-220a-4e97-b34d-9dc452bbd48a)
+
+
 These first steps are similar to what we have done for the eukaryotes. However here we extend the reads first.
 
 ####Description of the extension method:
@@ -423,8 +427,102 @@ bowtie2 -p 5 -k 100 -D 10 -R 2 \
     | samtools sort -@ 32 -m 8G -o PRI-TJPGK-CATN-160-162.sorted.bam
 ```
 #### Filtering:
+Here we use Samba to remove duplicates:
+```
+sambamba markdup -r -t 5 -p PRI-TJPGK-CATN-160-162.sorted.bam PRI-TJPGK-CATN-160-162.sorted.rmdup.bam
+```
+Then we filter the noise:
+```
+filterBAM --chunk-size 25 \
+  --bam PRI-TJPGK-CATN-160-162.sorted.rmdup.bam \
+  -N \
+  -r data/misc/aegenomics.db.len.map \
+  -A 92 \
+  -a 94 \
+  -n 100 \
+  -b 0.75 \
+  -B 0.01 \
+  -t 5 \
+  --sort-memory 8G \
+  --include-low-detection \
+  --stats PRI-TJPGK-CATN-160-162.stats.tsv.gz \
+  --stats-filtered PRI-TJPGK-CATN-160-162.stats-filtered.tsv.gz \
+  --bam-filtered PRI-TJPGK-CATN-160-162.filtered.bam
+```
+A few parameters are really important to have in mind.
+
+
+
+Look at the results of filtering:
+```
+zcat PRI-TJPGK-CATN-160-162.stats-filtered.tsv.gz \
+  | csvtk cut -t -T -f "reference,n_reads,read_ani_mean,read_ani_std,coverage_mean,breadth,exp_breadth,breadth_exp_ratio,norm_entropy,norm_gini,cov_evenness,tax_abund_tad" \
+  | csvtk grep -r -t -v -f reference -p _plas -p _mito \
+  | csvtk sort -t -T -k "n_reads:Nr" \
+  | tabview -
+```
+
+These are 4 reference examples to explore our output:
+```
+printf "GCA_002781685.1\nIMGVR_UViG_3300027782_000260\nGCA_014380485.1" > ref-list.txt
+getRPercId --bam PRI-TJPGK-CATN-160-162.sorted.rmdup.bam --reference-list ref-list.txt --threads 5 --sort-memory 8G
+```
+To see the coverage patterns:
+```
+/home/antonio/opt/conda/envs/day2/bin/bamcov -w 0 -m GCA_002781685.1.bam 
+/home/antonio/opt/conda/envs/day2/bin/bamcov -w 0 -m GCA_014380485.1.bam
+/home/antonio/opt/conda/envs/day2/bin/bamcov -w 0 -m IMGVR_UViG_3300027782_000260.bam 
+/home/antonio/opt/conda/envs/day2/bin/bamcov -w 0 -m data/misc/example-4.bam
+```
 
 #### Damage:
+The particularity here is that we look at the damages in local mode. The local mode allows to take into account the size of the genome of each reference.
+```
+metaDMG config --config-file PRI-TJPGK-CATN-160-162.local.yaml \
+  --metaDMG-cpp /usr/local/bin/metaDMG-cpp \
+  --parallel-samples 1 \
+  --cores-per-sample 5 \
+  --output-dir PRI-TJPGK-CATN-160-162.local \
+  --max-position 35 \
+  --min-similarity-score 0.92 \
+  --damage-mode local \
+  PRI-TJPGK-CATN-160-162.filtered.bam
+```
+Compute:
+```
+metaDMG compute PRI-TJPGK-CATN-160-162.local.yaml
+```
+Export to CSV:
+```
+metaDMG convert --add-fit-predictions \
+  --output PRI-TJPGK-CATN-160-162.csv.gz \
+  --results PRI-TJPGK-CATN-160-162.local/results
+```
+
+Explore:
+```
+metaDMG dashboard --results PRI-TJPGK-CATN-160-162.local/results/
+```
+Compare with the LCA mode:
+```
+conda activate metaDMG
+metaDMG config --config-file PRI-TJPGK-CATN-160-162.lca.yaml \
+  --custom-database \
+  --names data/taxonomy/names.dmp \
+  --nodes data/taxonomy/nodes.dmp \
+  --acc2tax data/taxonomy/acc2taxid.map.gz \
+  --metaDMG-cpp /usr/local/bin/metaDMG-cpp \
+  --parallel-samples 1 \
+  --cores-per-sample 5 \
+  --output-dir PRI-TJPGK-CATN-160-162.lca \
+  --max-position 35 \
+  --lca-rank '' \
+  --min-similarity-score 0.92 \
+  --damage-mode lca \
+  --weight-type 1 \
+  PRI-TJPGK-CATN-160-162.filtered.bam
+```
+
 
 #### Fonctionnal profiling:
 
