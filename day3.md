@@ -49,17 +49,44 @@ lsqproject:  YES
 pordercheck:  NO
 autoshrink: YES
 ```
-here `modern_all.pops.txt` specifies the popoulations included for calculating the coordinations in PCA.
+`numoutevec` - the number of princiapl components to be returned
 
-Samples in the genotype but not in this list will be projected on the map but will not influence the calculation or layout of other populations.
-This feature can be used to show the influence of outgroup to PCA.
+​`poplistname` - name of a file containing the population IDs for samples to be used to infer the principal components. When using PLINK format, population IDs for individuals have to be specified in column 6 of the .fam file. All individuals in the dataset with population ID not included in the file will be projected onto the inferred components
+
+`lsqproject` - PCA projection algorithm appropriate for samples with high amount of missing data.
+
+here `modern_all.pops.txt` specifies the popoulations included for calculating the coordinations in PCA. Samples in the genotype but not in this list will be projected on the map but will not influence the calculation or layout of other populations. This feature can be used to show the influence of outgroup to PCA.
+```
+smartpca -p modern_all.smartpca.par | tee modern_all.smartpca.log
+#check log
+modern_all.smartpca.log
+
+#check output coordinates (eigenvalue results)
+head modern_all.evec
+```
+prepare the file with a list of IDs for samples to be highlighted in the plot
+```
+cat label_inds.txt 
+UE1210
+UE1212
+UE1605
+```
+visualized with
+```
+Rscript plot_pca.R modern_all.evec label_inds.txt modern_all.pdf
+#modern_all.pdf is the output PCA plot
+```
 
 Examples as below:
 
 a. with polar bear in the list for .par
-
+[modern_all.pdf](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/files/12830767/modern_all.pdf)
 
 b. without
+[modern_blackbear.pdf](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/files/12830769/modern_blackbear.pdf)
+
+this shows that polar bear
+
 
 
 ## (2) f-statistic
