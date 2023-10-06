@@ -118,3 +118,7 @@ f4 is assuming Population((A,B),(X,D)), here X is query sample.
 f4-statistic
 <img width="642" alt="image" src="https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/53645977/16b9c40c-9c98-4972-9cdd-c958c9a5da9e">
 
+The f4 statistics as above can be explained by the graph (Pedersen, 2021).
+
+<img width="437" alt="image" src="https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/53645977/50e2b786-4906-40b8-9275-c33991cf3432">
+
