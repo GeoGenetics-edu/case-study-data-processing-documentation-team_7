@@ -411,6 +411,7 @@ Here the particularity is that the database is built with each genome of referen
 
 #### Mapping:
 The mapping is similar here than what we did previously for the eukaryotes.
+We map we the original reads fished with the extended deduplicated reads for several reasons including that the impact of extension on the damage has not been tested yet, + you loose the short reads authentification information which will impact the coverage and breadth of coverage.
 We also use Bowtie2. Note: the parameters here are sat for teh tutorial but for a real analysis we need to thune the parameters (ie -L is the parameter to set the size of the seed, the shorter, the more sensitive, however the mapping will be slower).
 ```
 bowtie2 -p 5 -k 100 -D 10 -R 2 \
@@ -437,8 +438,25 @@ The goal of this part is to apply our dataset to the search of pathogenes. In th
 *
 *
 
-###Duplicate removal:
-Here we remove duplicates after the mapping bc it removes both exact duplicates and reads that starts at the same exact position. This strategy comes from Hominin/single species workflows. Samba seams to  work the same way than Picard but does a reverse engeneering than Picard. Samtools does only replicates removal.
+### Duplicate removal:
+Here we remove duplicates after the mapping bc it removes both exact duplicates and reads that starts at the same exact position and keeps the one with the best mapping quality. This strategy comes from Hominin/single species workflows. Samba seams to  work the same way than Picard but does a reverse engeneering than Picard. Samtools does only replicates removal.
 
+The third genome has a lower breadth of coverage.
 
+### Damage
 
+### Coverage distribution:
+
+Count/Coverage plot: way to vizualize how many positions are covered by 1-2-3... reads.
+Y. pestis and Y. pseudotuberculosis have a mean of coverage at 8X with similar distribution. Y. pestis is a clone of Y. pseudotubercuosis.
+Y. intermedia has most of the positions with low coverage.
+
+Plasmids:
+We don't find any reads for Y. pseudotuberculosis. But find find reads from all plasmids of Y. pestis.
+Different number of copies of plasmids could come from the fact that they have different number of chromosomes.
+
+Edit distance:
+Y. intermedia maps at least with one mismatch.
+Mapping of Y. pestis is slightly better than Y. pseudotuberculosis.
+
+Coverage plot for genes of Y. pestis, we don't find genes that map to this particular plasmid.
