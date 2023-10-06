@@ -371,27 +371,14 @@ These first steps are similar to what we have done for the eukaryotes. However h
 * This method uses other kmer from the metagenomic data of the samples to extend existing reads. It is very conservative so it doesn't extend on damages and if it finds bubbles in the graph it stops (ie if there are several position on which the read could extend). The consequences of that is that the modern reads will be more extended than ancient ones in general. 
 * On other consequence of extending the reads is that is allows to remove more duplicates as we made some reads artificially different at the adapter removal and trimming step.
 
-For the extension we use tadpole:
+For the extension we use tadpole loop through our samples:
 ```
-tadpole.sh -Xmx10G \
-    k=17 \
-    in=data/fastq/PRI-TJPGK-CATN-160-162.fq.gz \
-    out=PRI-TJPGK-CATN-160-162.extended.fq.gz \
-    mode=extend \
-    ibb=f \
-    prefilter=0 \
-    el=100 er=100 \
-    threads=5 \
-    overwrite=true \
-    trimends=9 \
-    ecc=f ecco=f \
-    filtermem="${MEM}" \
-    conservative=t \
-    ignorebadquality 
+for fq in $(ls /home/user-13/course/data/day2/fastq/*.fq.gz); do echo ${fq}; tadpole.sh -Xmx10G   k=17   in=${fq}   out=$(echo '$(basename '$fq')' | sed ‘s/\.fq\.gz$//’).extended.fq.gz   mode=extend   ibb=f   prefilter=0   el=100 er=100   threads=5   overwrite=true   trimends=9   ecc=f ecco=f   filtermem='${MEM}'   conservative=t   ignorebadquality; done 
 ```
+
 To visualize the output statistics we use seqkit:
 ```
-seqkit stats -j 5 -T data/fastq/PRI-TJPGK-CATN-160-162.fq.gz | csvtk -t pretty
+seqkit stats -j 5 -T data/*.fq.gz | csvtk -t pretty
 ```
 Here are the statistics of the raw reads:
 ![image](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/111506710/471e3582-0340-41f6-ba65-1e5b33cec879)
