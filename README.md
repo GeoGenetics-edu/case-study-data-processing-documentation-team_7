@@ -431,4 +431,14 @@ bowtie2 -p 5 -k 100 -D 10 -R 2 \
 [Reference_preprint_Antonio]: <https://www.biorxiv.org/content/10.1101/2023.06.10.544454v2.abstract> "Fernandez-Guerra et al., 2023, bioRxiv"
 [ref_notdead_yet]: <https://bsapubs.onlinelibrary.wiley.com/doi/10.1002/ajb2.1780> "Sanyal et al., 2021, American Journal of Botany"
 
+## Ancient pathogens:
+The goal of this part is to apply our dataset to the search of pathogenes. In this case we focus on three different strings of the genus Yesinia:
+*
+*
+*
+
+###Duplicate removal:
+Here we remove duplicates after the mapping bc it removes both exact duplicates and reads that starts at the same exact position. This strategy comes from Hominin/single species workflows. Samba seams to  work the same way than Picard but does a reverse engeneering than Picard. Samtools does only replicates removal.
+
+
 
