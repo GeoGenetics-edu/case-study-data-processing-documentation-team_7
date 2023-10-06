@@ -237,7 +237,7 @@ When you filter for a significance of 5 it is too stringent because it only resu
 [aeCourse.DNAdamageModelJitterPlot.pdf](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/files/12801321/aeCourse.DNAdamageModelJitterPlot.pdf)
 
 
-## EUKA: mapping multiple samples to the pangenome graph
+## EUKA: mapping multiple samples to the pangenome graph (needs descriptions)
 
 creat an output directory
 ```
@@ -257,7 +257,7 @@ visualization:
 
 drag the tree.csv file to https://itol.embl.de/
 
-## Pathphynder: Phylogenetic placement
+## Pathphynder: Phylogenetic placement (needs description)
  Create VCF with snp-sites from multiple sequence alignment (MSA) file
 
 snp-sites -v -c -o Aln_mafft_taxa_references.vcf All_ref_only_realigned.fa
@@ -346,7 +346,7 @@ PathPhynder command2: ###transitions and transvertions--do not specify -m to ext
 pathPhynder -s all -t 100 -i ./Mafft_All_BEAST4.nwk -p ./taxa_pathphynder_tree -l ./bamlist.txt -r ./Cons_Aln_mafft_taxa_references.fa
 ```
 
-## Population genomics
+## Population genomics (to write):
 
 
 ## Microbiome
