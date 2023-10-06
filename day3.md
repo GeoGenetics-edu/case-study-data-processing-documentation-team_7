@@ -80,12 +80,16 @@ Rscript plot_pca.R modern_all.evec label_inds.txt modern_all.pdf
 Examples as below:
 
 a. with polar bear in the list for .par
-[modern_all.pdf](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/files/12830767/modern_all.pdf)
+
+<img width="608" alt="Screenshot 2023-10-06 at 14 20 31" src="https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/53645977/583167e9-bba4-4cf5-b004-b9c9861de535">
 
 b. without
-[modern_blackbear.pdf](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/files/12830769/modern_blackbear.pdf)
+<img width="619" alt="Screenshot 2023-10-06 at 14 19 27" src="https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/53645977/fbd7cb11-aca6-4416-9bf3-d30081fec989">
 
-this shows that polar bear
+This shows that polar bear as an outgroup can compress the difference among modern populations of bears. Also, there is an ancient sample slight biased towards polar bear in the PCA with all populations. This might be due to ???
+
+damage
+?bais
 
 
 
