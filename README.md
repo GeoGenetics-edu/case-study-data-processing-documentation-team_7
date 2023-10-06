@@ -252,8 +252,11 @@ input multiple samples (which did not work)
 ~/course/data/vgan/bin/vgan euka -fq1 <(zcat ~/course/wdir/day1_group/*.vs.fq.gz) -o all_sample -t 5 --euka_dir /home/user-5/course/wdir/day1_group/euka
 ```
 visualization:
+take the output from euka
+[tree.nw](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/blob/main/tree.nw)
 
-?where is the [tree.nw](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/blob/main/tree.nw)
+![image](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/53645977/23458131-8857-4429-9e69-ccbc66485bf7)
+
 
 drag the tree.csv file to https://itol.embl.de/
 
