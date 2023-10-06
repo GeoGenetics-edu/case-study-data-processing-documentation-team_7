@@ -1,0 +1,71 @@
+# Population genomics
+Based on pseudo-haploid genotypes:
+(1) plot PCA to determine the relationships among populations.
+(2) f-statistics is used to place the sample on the phylogenetic tree based on the distance among tips (leaves, samples).
+
+prepare the environment and directory:
+
+conda activate day3
+mamba install r-tidyverse r-ggrepel
+mkdir popgen
+cd popgen
+cp ~/course/data/day3/popgen/* .
+
+To analyze SNP genotype data, PLINK format ('https://www.cog-genomics.org/plink/') is used
+and the formats includes .bed, .bim and .fam ('https://www.cog-genomics.org/plink/1.9/formats')
+here we have modern_polar_mexican.bed/bim/fam
+
+plink --bfile modern_polar_mexican --missing --out modern_polar_mexican
+
+
+$head modern_polar_mexican.imiss
+        FID            IID MISS_PHENO   N_MISS   N_GENO   F_MISS
+      Kenai         AAACGG          Y     1163   174734 0.006656
+       West         AACTGA          Y     6055   174734  0.03465
+       West         AAGACG          Y     1697   174734 0.009712
+  Southwest         AAGCTA          Y      862   174734 0.004933
+  Southwest         AATATC          Y     1937   174734  0.01109
+       East         AATGAG          Y      768   174734 0.004395
+...
+
+From this amouont of missing genotype rate (F_MISS), assuming we could still be
+able to obtain meaning for results.
+
+(1) PCA analysis
+
+make parameter file `modern_all.smartpca.par​​`
+
+genotypename:    modern_polar_mexican.bed
+snpname:         modern_polar_mexican.bim
+indivname:       modern_polar_mexican.fam
+evecoutname:     modern_all.evec
+evaloutname:     modern_all.eval
+familynames:     NO
+numoutevec:      20
+numthreads:	 2
+numoutlieriter:	 0
+poplistname:   	 modern_all.pops.txt
+lsqproject:  YES
+pordercheck:  NO
+autoshrink: YES
+
+here `modern_all.pops.txt` specifies the popoulations included for calculating the coordinations in PCA.
+
+Samples in the genotype but not in this list will be projected on the map but will not influence the calculation or layout of other populations.
+This feature can be used to show the influence of outgroup to PCA.
+
+Examples as below:
+
+a. with polar bear in the list for .par
+
+
+b. without
+
+
+## (2) f-statistic
+
+
+
+
+
+
