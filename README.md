@@ -255,7 +255,7 @@ visualization:
 take the output from euka
 [tree.nw](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/blob/main/tree.nw)
 
-![image](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/53645977/23458131-8857-4429-9e69-ccbc66485bf7)
+![image](https://github.com/GeoGenetics-edu/case-study-data-processing-documentation-team_7/assets/111506710/d5a4657f-7bee-4527-9050-99d83d245132)
 
 
 drag the tree.csv file to https://itol.embl.de/
